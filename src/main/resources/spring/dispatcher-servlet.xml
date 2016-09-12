@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+    <mvc:annotation-driven /><!-- @Controller, @RequestMapping, @ResponseBody, @ResponseStatus, @ModelAttribute, ... 작성용 -->
+
+    <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+    <!--<resources mapping="/resources/**" location="/resources/" />--><!-- 미사용 -->
+
+    <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+    <!-- @Controller 클래스내 ModelAndView 객체를 리턴하는 메소드에 대하여, ModelAndView.viewName(JSP 파일경로) 의 접두사 및 접미사를 설정 -->
+    <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <beans:property name="prefix" value="/WEB-INF/views/" />
+        <beans:property name="suffix" value=".jsp" />
+    </beans:bean>
+
+    <!-- 검색된 @Controller, @Service, @Repository 클래스를 bean 으로 등록 -->
+    <context:component-scan base-package="com.jason" />
+
+    <aop:aspectj-autoproxy /><!-- @Aspect, @Pointcut, @Before, @AfterReturning, @Around, ... 작성용 -->
+
+    <tx:annotation-driven transaction-manager="transactionManager" /><!-- @Transactional 작성용 -->
+
+    <context:annotation-config /><!-- @Resource, @Autowired 작성용 -->
+
+</beans>
